@@ -5,6 +5,7 @@ import Footer from '@/components/Footer';
 import { Phone, Mail, Clock, MessageSquare, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import ContactForm from '@/components/ContactForm';
+import { Button } from '@/components/ui/button';
 
 const Contact = () => {
   const fadeInUp = {

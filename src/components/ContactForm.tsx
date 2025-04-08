@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -5,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
+import { sendContactFormEmail } from '@/utils/emailService';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -26,32 +28,25 @@ const ContactForm = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to send message');
+      // Call directly to the email service for simplicity
+      const result = await sendContactFormEmail(formData);
+      
+      if (result.success) {
+        toast({
+          title: 'Message sent!',
+          description: 'We will get back to you as soon as possible.',
+        });
+        
+        // Clear form
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: '',
+        });
+      } else {
+        throw new Error(result.message || 'Failed to send message');
       }
-
-      toast({
-        title: 'Message sent!',
-        description: 'We will get back to you as soon as possible.',
-      });
-
-      // Clear form
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: '',
-      });
     } catch (error) {
       toast({
         title: 'Error',
@@ -139,4 +134,4 @@ const ContactForm = () => {
   );
 };
 
-export default ContactForm; 
+export default ContactForm;

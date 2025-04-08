@@ -1,25 +1,34 @@
+
 import { sendContactFormEmail } from '@/utils/emailService';
-import { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method not allowed' });
-  }
-
+export async function POST(request: Request) {
   try {
-    const formData = req.body;
+    const data = await request.json();
     
-    // Validate required fields
-    if (!formData.name || !formData.email || !formData.subject || !formData.message) {
-      return res.status(400).json({ message: 'All fields are required' });
+    // Validate the data
+    if (!data.name || !data.email || !data.subject || !data.message) {
+      return new Response(
+        JSON.stringify({ message: 'Missing required fields' }),
+        { status: 400, headers: { 'Content-Type': 'application/json' } }
+      );
     }
-
-    // Send email
-    await sendContactFormEmail(formData);
-
-    return res.status(200).json({ message: 'Message sent successfully' });
+    
+    // Send the email
+    const result = await sendContactFormEmail(data);
+    
+    return new Response(
+      JSON.stringify({ message: 'Email sent successfully', success: true }),
+      { status: 200, headers: { 'Content-Type': 'application/json' } }
+    );
   } catch (error) {
     console.error('Error in contact API:', error);
-    return res.status(500).json({ message: 'Failed to send message' });
+    
+    return new Response(
+      JSON.stringify({ 
+        message: error instanceof Error ? error.message : 'An error occurred while processing your request',
+        success: false
+      }),
+      { status: 500, headers: { 'Content-Type': 'application/json' } }
+    );
   }
-} 
+}

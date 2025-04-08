@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -5,7 +6,7 @@ import { ServiceCard } from '@/components/services/ServiceCard';
 import { getAddonServices, AddonService } from '@/models/addon_services';
 import Hero from '@/components/Hero';
 import { Features } from '@/components/Features';
-import { Testimonials } from '@/components/Testimonials';
+import Testimonials from '@/components/Testimonials';
 import { Contact } from '@/components/Contact';
 
 export const Home = () => {
@@ -68,4 +69,4 @@ export const Home = () => {
       <Contact />
     </div>
   );
-}; 
+};
