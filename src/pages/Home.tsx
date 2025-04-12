@@ -41,6 +41,9 @@ export const Home = () => {
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Explore our range of additional services to support your travel and documentation needs
             </p>
+            <div className="mt-2 inline-flex items-center px-3 py-1 rounded-full bg-indigo-100 text-indigo-800 text-sm font-medium">
+              Updated Version
+            </div>
           </div>
 
           {loading ? (
