@@ -7,6 +7,13 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 import { sendContactFormEmail } from '@/utils/emailService';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -21,6 +28,10 @@ const ContactForm = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubjectChange = (value: string) => {
+    setFormData(prev => ({ ...prev, subject: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -90,15 +101,21 @@ const ContactForm = () => {
 
         <div>
           <Label htmlFor="subject">Subject</Label>
-          <Input
-            id="subject"
-            name="subject"
+          <Select
             value={formData.subject}
-            onChange={handleInputChange}
-            placeholder="Select a subject"
-            required
-            className="mt-1"
-          />
+            onValueChange={handleSubjectChange}
+          >
+            <SelectTrigger className="mt-1">
+              <SelectValue placeholder="Select a subject" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="general">General Inquiry</SelectItem>
+              <SelectItem value="support">Visa Support</SelectItem>
+              <SelectItem value="partnership">Partnership Opportunities</SelectItem>
+              <SelectItem value="feedback">Feedback</SelectItem>
+              <SelectItem value="other">Other</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         <div>
