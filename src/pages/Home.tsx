@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -5,7 +6,7 @@ import { ServiceCard } from '@/components/services/ServiceCard';
 import { getAddonServices, AddonService } from '@/models/addon_services';
 import Hero from '@/components/Hero';
 import { Features } from '@/components/Features';
-import { Testimonials } from '@/components/Testimonials';
+import Testimonials from '@/components/Testimonials';
 import { Contact } from '@/components/Contact';
 
 export const Home = () => {
@@ -40,6 +41,9 @@ export const Home = () => {
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Explore our range of additional services to support your travel and documentation needs
             </p>
+            <div className="mt-2 inline-flex items-center px-3 py-1 rounded-full bg-indigo-100 text-indigo-800 text-sm font-medium">
+              Updated Version
+            </div>
           </div>
 
           {loading ? (
@@ -68,4 +72,4 @@ export const Home = () => {
       <Contact />
     </div>
   );
-}; 
+};

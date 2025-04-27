@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -5,6 +6,14 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
+import { sendContactFormEmail } from '@/utils/emailService';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -21,37 +30,34 @@ const ContactForm = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleSubjectChange = (value: string) => {
+    setFormData(prev => ({ ...prev, subject: value }));
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to send message');
+      // Call directly to the email service for simplicity
+      const result = await sendContactFormEmail(formData);
+      
+      if (result.success) {
+        toast({
+          title: 'Message sent!',
+          description: 'We will get back to you as soon as possible.',
+        });
+        
+        // Clear form
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: '',
+        });
+      } else {
+        throw new Error(result.message || 'Failed to send message');
       }
-
-      toast({
-        title: 'Message sent!',
-        description: 'We will get back to you as soon as possible.',
-      });
-
-      // Clear form
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: '',
-      });
     } catch (error) {
       toast({
         title: 'Error',
@@ -95,15 +101,21 @@ const ContactForm = () => {
 
         <div>
           <Label htmlFor="subject">Subject</Label>
-          <Input
-            id="subject"
-            name="subject"
+          <Select
             value={formData.subject}
-            onChange={handleInputChange}
-            placeholder="Select a subject"
-            required
-            className="mt-1"
-          />
+            onValueChange={handleSubjectChange}
+          >
+            <SelectTrigger className="mt-1">
+              <SelectValue placeholder="Select a subject" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="general">General Inquiry</SelectItem>
+              <SelectItem value="support">Visa Support</SelectItem>
+              <SelectItem value="partnership">Partnership Opportunities</SelectItem>
+              <SelectItem value="feedback">Feedback</SelectItem>
+              <SelectItem value="other">Other</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         <div>
@@ -139,4 +151,4 @@ const ContactForm = () => {
   );
 };
 
-export default ContactForm; 
+export default ContactForm;

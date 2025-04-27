@@ -1,21 +1,13 @@
+
 import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Phone, Mail, Clock, MessageSquare, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
+import ContactForm from '@/components/ContactForm';
+import { Button } from '@/components/ui/button';
 
 const Contact = () => {
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // In a real app, this would send the contact form data
-    console.log('Contact form submitted');
-  };
-
   const fadeInUp = {
     initial: { opacity: 0, y: 20 },
     animate: { opacity: 1, y: 0 },
@@ -118,7 +110,10 @@ const Contact = () => {
                 <p className="text-gray-100 mb-6 leading-relaxed">
                   Get instant answers from our visa experts via live chat. Our team is available 24/7 to assist you with any queries.
                 </p>
-                <Button className="w-full bg-white text-navy hover:bg-gray-100 group">
+                <Button 
+                  className="w-full bg-white text-navy hover:bg-gray-100 group"
+                  variant="default"
+                >
                   Start Live Chat
                   <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </Button>
@@ -133,63 +128,7 @@ const Contact = () => {
             >
               <div className="bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
                 <h2 className="text-2xl font-bold mb-6 text-navy">Send Us a Message</h2>
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <Label htmlFor="name" className="text-gray-700">Your Name</Label>
-                      <Input 
-                        id="name" 
-                        placeholder="John Doe" 
-                        className="rounded-lg border-gray-200 focus:border-navy focus:ring-navy transition-colors"
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="email" className="text-gray-700">Email Address</Label>
-                      <Input 
-                        id="email" 
-                        type="email" 
-                        placeholder="john@example.com" 
-                        className="rounded-lg border-gray-200 focus:border-navy focus:ring-navy transition-colors"
-                      />
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="subject" className="text-gray-700">Subject</Label>
-                    <Select>
-                      <SelectTrigger 
-                        id="subject" 
-                        className="rounded-lg border-gray-200 focus:border-navy focus:ring-navy transition-colors"
-                      >
-                        <SelectValue placeholder="Select a subject" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="application">Visa Application</SelectItem>
-                        <SelectItem value="status">Application Status</SelectItem>
-                        <SelectItem value="documents">Document Requirements</SelectItem>
-                        <SelectItem value="payment">Payment Issues</SelectItem>
-                        <SelectItem value="general">General Inquiry</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label htmlFor="message" className="text-gray-700">Message</Label>
-                    <Textarea 
-                      id="message" 
-                      placeholder="How can we help you?" 
-                      className="min-h-[150px] rounded-lg border-gray-200 focus:border-navy focus:ring-navy transition-colors"
-                    />
-                  </div>
-                  
-                  <Button 
-                    type="submit" 
-                    className="w-full bg-navy hover:bg-indigo-800 text-white transition-colors group"
-                  >
-                    Send Message
-                    <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
-                  </Button>
-                </form>
+                <ContactForm />
               </div>
             </motion.div>
           </div>
